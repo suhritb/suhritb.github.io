@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Suhrit Bestavemula">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Suhrit Bestavemula">
+<meta property="og:description" content="ML research for the physical sciences: neural operators, symmetry priors, and what benchmarks measure.">
+<meta name="twitter:card" content="summary">
+<title>Suhrit Bestavemula</title>
+<meta name="description" content="Suhrit Bestavemula: ML research for the physical sciences. Neural operators, symmetry priors, and what benchmarks actually measure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* left-aligned single column; a streamline plot as the header, then a two-column label/entry grid */
+  :root {
+    --bg: #f5f6f8;
+    --fg: #14181e;
+    --muted: #5d6573;
+    --faint: #c9ced7;
+    --line: #dde1e7;
+    --accent: #2f56d9;
+
+    --sans: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+    --col: 660px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1216; --fg: #e5e8ed; --muted: #959dab; --faint: #353b45; --line: #252a32; --accent: #8aa4ff;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1216; --fg: #e5e8ed; --muted: #959dab; --faint: #353b45; --line: #252a32; --accent: #8aa4ff;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 400 17px/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding-inline: 24px;
+    padding-block: 56px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--faint);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 120ms, color 120ms;
+  }
+  a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  /* header */
+  .flow { display: block; width: 100%; height: 92px; }
+  h1 {
+    margin: 28px 0 10px;
+    font: 600 36px/1.1 var(--sans);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+  .lede { margin: 0; max-width: 58ch; color: var(--muted); }
+  .lede strong { color: var(--fg); font-weight: 500; }
+
+  /* sections */
+  h2 {
+    margin: 0 0 14px;
+    font: 500 11px/1 var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--muted);
+  }
+  .rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .rows li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tag {
+    font: 400 12.5px/1.95 var(--mono);
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .rows p { margin: 0; min-width: 0; }
+  .rows b { font-weight: 600; }
+
+  .paper .t { display: block; font-weight: 500; }
+  .paper .a { display: block; color: var(--muted); font-size: 15px; }
+  .paper .v { display: block; margin-top: 2px; font: 400 12px/1.7 var(--mono); color: var(--muted); }
+  .paper .a b { color: var(--fg); font-weight: 600; }
+
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    font: 400 13px/1.6 var(--mono);
+    color: var(--muted);
+  }
+  .copy {
+    font: inherit; color: var(--fg); background: none; border: 0; padding: 0; cursor: pointer;
+    text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 3px;
+  }
+  .copy:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+  @media (max-width: 520px) {
+    .wrap { padding-block: 36px 56px; gap: 40px; padding-inline: 18px; }
+    h1 { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <canvas class="flow" id="flow" aria-hidden="true"></canvas>
+    <h1>Suhrit Bestavemula</h1>
+    <p class="lede"><strong>ML research for the physical sciences.</strong> I study when models actually learn physics: neural operators, symmetry priors, and what benchmarks measure. Junior at Neuqua Valley High School.</p>
+  </header>
+
+  <section aria-label="Work">
+    <ul class="rows">
+      <li><p><b>Co-founded <a href="https://landeracl.com" target="_blank" rel="noopener">LANDER</a></b>: ACL injury-risk screening from a single phone video.</p></li>
+      <li><p><b>First-author paper at NeurIPS 2026</b> (RPS workshop): when physical symmetries actually help neural operators transfer.</p></li>
+      <li><p><b>Co-author at MICCAI 2026</b> (UNSURE workshop): uncertainty that catches SAM/MedSAM segmentation failures.</p></li>
+      <li><p><b>Researcher at Missouri S&amp;T</b> in Prof. Xiaosong Du's PHLAI Lab: ML for aerospace design.</p></li>
+      <li><p><b>Incoming summer 2027 researcher at Purdue</b>, in person in Prof. Alex Chortos's lab.</p></li>
+      <li><p><b>Auditing LLM physics benchmarks</b>: model rankings on SciBench flip with the token budget.</p></li>
+    </ul>
+  </section>
+
+
+  <footer>
+    <button class="copy" id="copy-email" type="button" title="Copy email">suhritb@gmail.com</button>
+    <span>Naperville, IL</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    // Streamlines of 2D potential flow past a cylinder: psi = y (1 - R^2 / r^2), U = 1.
+    var cv = document.getElementById('flow');
+    var ctx = cv.getContext('2d');
+
+    function draw() {
+      var css = getComputedStyle(document.documentElement);
+      var faint = css.getPropertyValue('--muted').trim();
+      var accent = css.getPropertyValue('--accent').trim();
+      var dpr = window.devicePixelRatio || 1;
+      var w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+
+      var half = w / h;                 // world: y in [-1, 1], x in [-half, half]
+      var R = 0.44, x0 = half * 0.42;
+      var sx = function (x) { return (x + half) / (2 * half) * w; };
+      var sy = function (y) { return (1 - (y + 1) / 2) * h; };
+
+      function solve(x, p) {           // y > 0 with y(1 - R^2/((x-x0)^2+y^2)) = p
+        var lo = 0, hi = 2.5;
+        for (var i = 0; i < 40; i++) {
+          var m = (lo + hi) / 2, d = (x - x0) * (x - x0) + m * m;
+          if (m * (1 - R * R / d) < p) lo = m; else hi = m;
+        }
+        return (lo + hi) / 2;
+      }
+
+      ctx.lineWidth = 1;
+      var levels = [0.12, 0.28, 0.46, 0.66, 0.88];
+      levels.forEach(function (p, k) {
+        [1, -1].forEach(function (s) {
+          ctx.beginPath();
+          for (var px = 0; px <= w; px += 2) {
+            var x = px / w * 2 * half - half;
+            var y = s * solve(x, p);
+            if (px === 0) ctx.moveTo(px, sy(y)); else ctx.lineTo(px, sy(y));
+          }
+          ctx.strokeStyle = faint;
+          ctx.globalAlpha = 0.75 - k * 0.09;
+          ctx.stroke();
+        });
+      });
+
+      // dividing streamline (psi = 0) runs along the axis and wraps the body
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = accent;
+      ctx.lineWidth = 1.25;
+      ctx.beginPath();
+      ctx.moveTo(0, sy(0)); ctx.lineTo(sx(x0 - R), sy(0));
+      ctx.moveTo(sx(x0 + R), sy(0)); ctx.lineTo(w, sy(0));
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(sx(x0), sy(0), R / (2 * half) * w, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    draw();
+    window.addEventListener('resize', draw);
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', draw);
+    }
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+
+    var btn = document.getElementById('copy-email');
+    var email = btn.textContent;
+    btn.addEventListener('click', function () {
+      function done() { btn.textContent = 'copied'; setTimeout(function () { btn.textContent = email; }, 1200); }
+      function select() {
+        var r = document.createRange(); r.selectNodeContents(btn);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      }
+      if (btn.textContent !== email) return;
+      try { navigator.clipboard.writeText(email).then(done, select); } catch (e) { select(); }
+    });
+  })();
+</script>
+</body>
+</html>
